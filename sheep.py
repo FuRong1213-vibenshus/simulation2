@@ -28,12 +28,17 @@ class Sheep(Agent):
             
 class Wolf(Agent):
 
-    def __init__(self, cell, p_reproduce, energy):
+    def __init__(self, p_reproduce, energy):
         super.__init__(cell):
 
     def feed(self):
         """If possible, eat a sheep at current location."""
-        pass
+        sheep_list = list(agent for agent in self.cell.agents
+                         if isinstance(agent, Sheep))
+
+        if sheep_list:
+            eaten = random.choice(sheep_list)
+            eaten.del
     def step(self):
         self.move()
         # Try to feed 

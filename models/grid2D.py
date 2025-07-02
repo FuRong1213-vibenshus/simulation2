@@ -15,7 +15,7 @@ class Grid2D():
             return self.cells[x][y]
         return None
 
-    def get_neighbour(self, cell):
+    def get_neighbours(self, pos):
         x, y = pos
         neighbour_offsents = [(-1, 0), (1,0), (0, -1), (0,1)]
         neighbours = []
@@ -23,8 +23,10 @@ class Grid2D():
         for dx, dy in neighbour_offsets:
             neighbour = self.get_cell((x+dx, y+dy))
             if neighbour:
-                neighbours.append(neighbour.pos)        return neighbours
-
+                neighbours.append(neighbour.pos)        
+        
+        return neighbours
+        
     def distance_to(self, cell):
         pass
 

@@ -9,19 +9,25 @@ class Agent():
             p_reproduce: Probability of reproduction
             cell: Cell in which the animal starts 
         """
-        # self.pos  = pos
         self.cell = cell
         self.grid = grid
         self.alive = True
 
 
-    
-    def current_cell():
+    @property 
+    def cell(self):
         """Returns the cell that the agent is currently standing on, based on its
         coordinates.
         """
-        return self.cell
-    def destroy():
+        return self._cell
+    
+    @cell.setter
+    def cell(self, value):
+        self._cell = value
+
+
+
+    def destroy(self):
         
         pass
 
@@ -52,43 +58,8 @@ class Agent():
 
     def remove(self):
         """The agent is removed (dead) from the model"""
-        pass
+            
+
     def step(self):
         """Execute one step of the animal's behavior."""
-
-class Sheep(Agent):
-
-    def step(self):
-        self.move()
-        # self.energy -= 1
-        # Try to feed 
-        self.feed()
-        # Handle death and reproduction
-        if self.energy < 0:
-            self.remove()
-        elif random.random()< self.p_reproduce:
-            self.spawn_offspring()
-    
-    def move(self):
-        pass
-
-
-class Wolf(Agent):
-    def feed(self):
-        """If possible, eat a sheep at current location."""
-        pass
-    def step(self):
-        self.move()
-        self.energy -= 1
-        # Try to feed 
-        self.feed()
-        # Handle death and reproduction
-        if self.energy < 0:
-            self.remove()
-        elif random.random()< self.p_reproduce:
-            self.spawn_offspring()
-
-    def move(self):
-        pass
-
 
