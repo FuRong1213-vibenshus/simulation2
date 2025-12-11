@@ -1,35 +1,29 @@
 import random
-
+import numpy as np
 class Agent():
     """The base agent class"""
-    def __init__(self, cell, grid):
+    def __init__(self, x,y):
         """Initialize an agent.
         Args:
             energy: Starting amount of energy
             p_reproduce: Probability of reproduction
             cell: Cell in which the animal starts 
         """
-        self.cell = cell
-        self.grid = grid
+        self.position = np.array([x,y])
         self.alive = True
 
 
     @property 
-    def cell(self):
+    def position(self):
         """Returns the cell that the agent is currently standing on, based on its
         coordinates.
         """
-        return self._cell
+        return self._position 
     
-    @cell.setter
-    def cell(self, value):
-        self._cell = value
+    @position.setter
+    def position(self, x,y):
+        self._position = np.array([x,y])
 
-
-
-    def destroy(self):
-        
-        pass
 
     def jump_to(self, pos):
         """ Move the agent to a specified point.
@@ -50,16 +44,9 @@ class Agent():
         #else: 
         #    return None
 
-    def move(self):
-        """Find a random neighboring cell and move there"""
-        #neighbours = self.grid.get_neighbours(self.pos)
-        #if neighbours:
-        #    self.grid.move_agent
-
-    def remove(self):
-        """The agent is removed (dead) from the model"""
-            
+        pass
 
     def step(self):
         """Execute one step of the animal's behavior."""
+        pass
 

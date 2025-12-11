@@ -2,8 +2,9 @@ import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt, animation
 from matplotlib import colors 
-from agents import Sheep, Wolf
+from models.agents import Sheep, Wolf
 from models import agents, cell, model
+from wolf_sheep_model import WolfSheep
 
 class App():
     def __init__(self, model):
@@ -28,8 +29,11 @@ class App():
         
         map_class_to_color = np.vectorize(self.__map)
         self.normed_grid = map_class_to_color(self.model.grid)
-        self.pcmesh = ax.pcolormesh(x, y, self.normed_grid ,cmap=cmap, edgecolors='k',linewidths=0.5)
-        #c = ax.pcolormesh(self.normed_grid,cmap=cmap, edgecolors='k', linewidths=0.5)
+        self.pcmesh = ax.pcolormesh(x, y, 
+                                    self.normed_grid ,
+                                    cmap=cmap, 
+                                    edgecolors='k',
+                                    linewidths=0.5)
     def cell_map(self):
         map_class_to_color = np.vectorize(self.__map)
         self.normed_grid = map_class_to_color(self.model.grid)
@@ -41,10 +45,16 @@ class App():
     def run(self):
 
         self.display_grid()
-        anim = animation.FuncAnimation(self.fig, self.__animate,interval=5, frames=10)
+        anim = animation.FuncAnimation(self.fig, 
+                                       self.__animate,
+                                       interval=5, 
+                                       frames=10)
         anim.save('tmp.gif')
         plt.show()
+
 model = WolfSheep(10, 10, 50, 20)
 model.setup()
 app = App(model)
 app.run()
+
+

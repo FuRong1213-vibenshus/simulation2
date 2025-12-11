@@ -1,58 +1,81 @@
 import random
-from models.agents import Agent, Cell
+import numpy as np
+from models.agents import Agent
+
 
 
 class Sheep(Agent):
-    def __init__(self, cell, p_reproduce, energy):
-        super.__init__(cell):
+    def __init__(self, 
+                 model,
+                 x,y, 
+                 p_reproduce, 
+                 energy, 
+                 speed):
+        super.__init__(x,y)
         self.p_reproduce = p_reproduce
         self.energy = energy
+        self.speed = speed
+        self.alive = True
 
     def step(self):
+        # Random walk
         self.move()
+        self.spawn_offspring()
+        
+    
+    def move(self):
+        
+        angle = random.random()*2*np.pi
+        delta_x = np.cos(angle)*self.speed
+        delta_y = np.sin(angle)*self.speed
+        self.x = self.x + delta_x
+        self.y = self.y + delta_y
+        self.energy -= 1
+    
+    def spawn_offspring(self):
+
+        # Handle reproduction
+        if random.random()< self.p_reproduce:
+            self.model.new_sheep.append(Sheep(self.x+random.uniform(-0.5,0.5),
+                                              self.y+random.uniform(-0.5, 0.5)
+                                              )
+                                        )
+
+
+
+class Wolf(Agent):
+
+    def __init__(self, 
+                 x,y,
+                 p_reproduce, 
+                 energy,
+                 speed,
+                 model):
+        super.__init__(x,y)
+        self.p_reproduce = p_reproduce
+        self.energy = energy
+        self.speed = speed
+        self.alive = True
+        self.model = model
+
+    def step(self):
+        self.energy -= 1
+        self.feed()
+        self.move() 
         # Handle death and reproduction
+        self.spawn_offspring()
         if self.energy < 0:
-            self.remove()
+            self.alive = False
         elif random.random()< self.p_reproduce:
             self.spawn_offspring()
     
-    def move(self):
-        cell_without_wolves = list(cell for cell in self.cell.neighbours 
-                                        if not any(isinstance(obj, Wolf)) 
-                                        for obj in cell.agents)
-        
-        if cell_without_wolves:
-            self.cell = random.choice(cell_without_wolves)
-            self.energy -= 1
-        
-            
-class Wolf(Agent):
-
-    def __init__(self, p_reproduce, energy):
-        super.__init__(cell):
-
+    
     def feed(self):
-        """If possible, eat a sheep at current location."""
-        sheep_list = list(agent for agent in self.cell.agents
-                         if isinstance(agent, Sheep))
+        """If possible, eat a sheep at nearby."""
 
-        if sheep_list:
-            eaten = random.choice(sheep_list)
-            eaten.del
-    def step(self):
-        self.move()
-        # Try to feed 
-        self.feed()
-        # Handle death and reproduction
-        if self.energy < 0:
-            self.remove()
-        elif random.random()< self.p_reproduce:
-            self.spawn_offspring()
 
-    def move(self):
-        cell_with_sheep = list(cell for cell in self.cell.neighbours
-                                    if any(isinstance(obj, Sheep))
-                                    for obj in cell.agents)
+        condition = self.model.sheep
+
 
 
 
