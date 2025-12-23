@@ -2,10 +2,12 @@ import numpy as np
 import copy
 import random
 import math
-import models 
+from models.model import Model
+from sheep import Sheep 
+from wolf import Wolf
 
 
-class WolfSheep(models.model):
+class World(Model): 
     """Wolf-sheep Predation Model.
     A model for simulating wolf and sheep (predator-prey) ecosystem modelling.
     """
@@ -13,11 +15,11 @@ class WolfSheep(models.model):
     def __init__(
         self,
         world_size,
-        n_sheep=3,
-        n_wolves=2,
-        sheep_reproduce=0.4,
+        n_sheep=50,
+        n_wolves=4,
+        sheep_reproduce=0.19,
         wolf_reproduce=0.05,
-        wolf_gain_from_food=20,
+        wolf_gain_from_food=8,
     ):
         """Create a wolf-Sheep model with the given parameters.
 
@@ -28,7 +30,7 @@ class WolfSheep(models.model):
             wolf_reproduce: probability of each wolf reproducing each step
             wolf_gain_from_food: Energy a wolf gains from eating a sheep
         """
-        super.__init__(world_size)
+        super().__init__(world_size)
         self.time = 0
         self.sheep = []
         self.wolves = []
@@ -41,12 +43,22 @@ class WolfSheep(models.model):
         # Populate world
                 
         for _ in range(n_sheep):
-            x, y = np.random.uniform(0, world_size, 2)
-            self.sheep.append(models.Sheep(x,y))
+            x, y = np.random.uniform(0, self.world_size, 2)
+            self.sheep.append(Sheep(x,y,
+                                    self.world_size,
+                                    p_reproduce=0.16,
+                                    speed=20,
+                                    energy_loss=1.5))
         
+
         for _ in range(n_wolves):
-            x, y = np.random.uniform(0, world_size, 2)
-            self.wolves.append(models.Wolf(x,y))
+            x, y = np.random.uniform(0, self.world_size, 2)
+            self.wolves.append(Wolf(x,y,
+                                    self.world_size,
+                                    p_reproduce=0.055,
+                                    energy = 25,
+                                    energy_loss = 6,
+                                    energy_gain_from_food=8))
 
 
         self.sheep_reproduce = sheep_reproduce
@@ -63,19 +75,25 @@ class WolfSheep(models.model):
         Add newborns, remove the dead,
 
         """
-        self.sheep = [s for s in self.sheep if s.alive]
-        self.wolves = [w for w in self.wolves if w.alive] 
-        
+        for s in self.sheep:
+            if not s.alive:
+                self.sheep.remove(s)
+                del s
+        for w in self.wolves:
+            if not w.alive:
+                self.wolves.remove(w)
+                del w
+
         self.sheep.extend(self.new_sheep)
         self.wolves.extend(self.new_wolves)
 
         self.new_sheep = []
         self.new_wolves = []
-        
+                
         for s in self.sheep:
-            s.step()
+            s.step(self)
 
         for w in self.wolves:
-            w.step()
+            w.step(self)
         
         self.time += 1

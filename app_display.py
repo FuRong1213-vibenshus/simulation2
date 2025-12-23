@@ -2,59 +2,42 @@ import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt, animation
 from matplotlib import colors 
-from models.agents import Sheep, Wolf
-from models import agents, cell, model
-from wolf_sheep_model import WolfSheep
+from wolf_sheep_model import World
 
-class App():
-    def __init__(self, model):
-        self.model = model
+def run_app():
+    model = World(200)
 
-    def __map(self, obj):
-        if isinstance(obj, Sheep): 
-            val = 1
-        elif isinstance(obj,Wolf):
-            val = 2
-        else:
-            val = 0
-        return val
+    fig, ax = plt.subplots()
+    ax.set_xlim(0, model.world_size)
+    ax.set_ylim(0, model.world_size)
+    ax.set_aspect("equal")
 
-    def display_grid(self):
-        fig, ax = plt.subplots()
-        self.fig = fig
-        cmap = colors.ListedColormap(['green', 'yellow', 'red'])
-        x = np.array(range(0, self.model.width+1))
-        y = np.array(range(0, self.model.height+1))
-        X, Y = np.meshgrid(x,y)
-        
-        map_class_to_color = np.vectorize(self.__map)
-        self.normed_grid = map_class_to_color(self.model.grid)
-        self.pcmesh = ax.pcolormesh(x, y, 
-                                    self.normed_grid ,
-                                    cmap=cmap, 
-                                    edgecolors='k',
-                                    linewidths=0.5)
-    def cell_map(self):
-        map_class_to_color = np.vectorize(self.__map)
-        self.normed_grid = map_class_to_color(self.model.grid)
-        self.pcmesh.set_array(self.normed_grid.flatten())
-    def __animate(self, i):
-        self.model.step()
-        self.cell_map()
+    sheep_scatter = ax.scatter([], [], s=20, c="green")
+    wolf_scatter  = ax.scatter([], [], s=40, c="red", marker="^")
+    text = ax.text(0.02, 0.95, "", transform=ax.transAxes)
 
-    def run(self):
+    def update(frame):
+        model.step()
 
-        self.display_grid()
-        anim = animation.FuncAnimation(self.fig, 
-                                       self.__animate,
-                                       interval=5, 
-                                       frames=10)
-        anim.save('tmp.gif')
-        plt.show()
+        sheep_pos = np.array([[s.x, s.y] for s in model.sheep])
+        wolf_pos  = np.array([[w.x, w.y] for w in model.wolves])
 
-model = WolfSheep(10, 10, 50, 20)
-model.setup()
-app = App(model)
-app.run()
+        sheep_scatter.set_offsets(sheep_pos)
+        wolf_scatter.set_offsets(wolf_pos)
+
+        text.set_text(f"t={model.time}  Sheep={len(model.sheep)} Wolves={len(model.wolves)}")
+        return sheep_scatter, wolf_scatter, text
+
+    ani = animation.FuncAnimation(fig, 
+                                  update, 
+                                  interval=300, 
+                                  blit=False, 
+                                  cache_frame_data=False,
+                                  )
+    plt.show()
+
+
+if __name__ == "__main__":
+    run_app()
 
 
