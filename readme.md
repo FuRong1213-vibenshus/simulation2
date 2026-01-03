@@ -24,6 +24,9 @@
 - [Emprisk og formel](https://vidensmoenstre.systime.dk/?id=129)
 - [Deduktion og induktion](https://vidensmoenstre.systime.dk/?id=143)
 
+## Further reading 
+- [Agent based modelling (ABM)](https://complexityexplorer.s3.amazonaws.com/Mesa+ABM/epstein_axtell.pdf)
+- [Game Theory by ABM](https://math.libretexts.org/Bookshelves/Applied_Mathematics/Agent-Based_Evolutionary_Game_Dynamics_(Izquierdo_Izquierdo_and_Sandholm)/02%3A_Our_first_agent-based_evolutionary_model/2.01%3A_Our_very_first_model)
 
 
 ## Abstract Klasser og Polymorfi
