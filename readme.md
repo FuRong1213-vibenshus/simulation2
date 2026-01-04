@@ -29,14 +29,42 @@
 - [Game Theory by ABM](https://math.libretexts.org/Bookshelves/Applied_Mathematics/Agent-Based_Evolutionary_Game_Dynamics_(Izquierdo_Izquierdo_and_Sandholm)/02%3A_Our_first_agent-based_evolutionary_model/2.01%3A_Our_very_first_model)
 
 
+
 ## Abstract Klasser og Polymorfi
 
 - Læs https://docs.python.org/3/library/abc.html
 - Læs https://www.geeksforgeeks.org/python/polymorphism-in-python/
-- Implementer klasser `Rectangle` og `Circle` i filen models/Shape.py
+
+
 - Forklar begreber 
     - Nedarvning
     - Polymorphism 
+- forklare hvad en abstract class er, og hvorfor man bruger abc
+
+    *The DRY principle is stated as "Every piece of knowledge must have a single, unambiguous, authoritative representation within a system". The principle has been formulated by Andy Hunt and Dave Thomas in their book The Pragmatic Programmer. They apply it quite broadly to include database schemas, test plans, the build system, even documentation.When the DRY principle is applied successfully, a modification of any single element of a system does not require a change in other logically unrelated elements. Additionally, elements that are logically related all change predictably and uniformly, and are thus kept in sync.(wikipedia)*
+
+- implementere egne klasser, der overholder et fælles interface
+
+- anvende **kwargs og dictionary-unpacking i constructors
+
+
+### Do it yourself
+
+- Læs artiklen https://realpython.com/instance-class-and-static-methods-demystified/
+- Implementer klasser `Rectangle` og `Circle` i filen models/Shape.py
+    - **Inheritance**: `Circle` skal nedarve fra `Shape`
+    - **Constructor (__init__)**
+        - Circle skal bruge **kwargs som input
+        - Circle skal gemme radius som et attribut
+    - **abstractmetod**: Implementér metoden area(), der skal returnere cirklens areal.
+    - **classmetode**: Implementér metoden from_config(cls, config), der skal 
+        - modtage en dictionary
+        - validere input
+        - oprette og returnere et Circle-objekt
+    - **staticmetode** Implementér static metode validate_config(config) der skal:
+        - sikre at "radius" findes i dictionary
+        - sikre at radius er et positivt tal
+        - Hvis input er forkert, skal der raises en ValueError
 
 
 

@@ -1,10 +1,24 @@
 from abc import ABC, abstractmethod
+import math
 
 class Shape(ABC):
     @abstractmethod
     def area(self):
         pass
+    
+    @classmethod
+    @abstractmethod
+    def from_config(cls, config):
+        
+        pass
 
+    @staticmethod
+    @abstractmethod
+    def validate_config(config):
+        """
+        Validate input configuration
+        """
+        pass
     
 
     def __str__(self):
@@ -20,6 +34,8 @@ class Rectangle(Shape):
         self.height = kwarg['height']
     def area(self):
         return self.width*self.height
+
+
 
 class Circle(Shape):
     pass
