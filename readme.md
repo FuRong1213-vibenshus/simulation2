@@ -179,9 +179,9 @@ prey_at_position = [a for a in agents_here if isinstance(a, Prey)]
     self.energy//=2 
 ```
 
-### Opgave 4
+### Opgave 4 
 
-- Demo, plot
+- Demo, plot 
 
 
 
