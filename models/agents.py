@@ -1,48 +1,30 @@
 import random
 import numpy as np
-class Agent():
+from abc import ABC, abstractmethod
+from model import Model
+
+
+class Agent(ABC):
     """The base agent class"""
-    def __init__(self, x,y,speed,world_size):
+    def __init__(self, 
+                 model: Model,
+                 position: list[int, int],
+                 speed: float):
         """Initialize an agent.
         Args:
             energy: Starting amount of energy
             p_reproduce: Probability of reproduction
             cell: Cell in which the animal starts 
         """
-        self._x = x
-        self._y = y
-        self.speed = speed
-        self.world_size = world_size
+        self.model = model 
         self.alive = True
-        self._pos = np.array([self._x, self._y])
-    @property
-    def x(self):
-        return self._x
+        self.position = position
+        self.speed = speed
     
-    @x.setter
-    def x(self, value):
-        # wrap around (toroidal world)
-        self._x = value % self.world_size
-
-    @property
-    def y(self):
-        return self._y
-    
-    @y.setter
-    def y(self, value):
-        # wrap around (toroidal world)
-        self._y = value % self.world_size
-
-    @property 
-    def pos(self):
-        """Returns the cell that the agent is currently standing on, based on its
-        coordinates.
-        """
-        return self._pos 
-    
-
     def move(self):
-        
+        """
+        Random walk 
+        """        
         angle = random.random()*2*np.pi
         delta_x = np.cos(angle)*self.speed
         delta_y = np.sin(angle)*self.speed
@@ -50,12 +32,13 @@ class Agent():
         self.y = self.y + delta_y
 
 
-    
+    @abstractmethod
     def feed(self):
         pass
-
+    
+    @abstractmethod
     def spawn_offspring(self):
-        """Create offspring by splitting energy and creating new instance."""
+        """Create offspring by splitting energy and creating new instance.
         self.energy /=2
 
         return self.__class__(self.x+random.uniform(-5,5),
@@ -63,9 +46,10 @@ class Agent():
                             self.speed,
                             self.world_size
                             )
+        """
+        pass
                         
-
-
+    @abstractmethod
     def step(self):
         """Execute one step of the animal's behavior."""
         pass

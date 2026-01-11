@@ -2,33 +2,31 @@ import random
 import numpy as np
 from models.agents import Agent
 
+
 class Sheep(Agent):
-    def __init__(self, 
-                 x,y,
-                 world_size, 
+    def __init__(self,
+                 model,
+                 position=None, 
                  speed = 25,
-                 p_reproduce = 0.2, 
-                 energy_loss = 1.2,
-                 energy = 10,
+                 p_reproduce:float = 0.05, 
                  ):
-        super().__init__(x,y,speed,world_size)
+        super().__init__(model, position)
         self.p_reproduce = p_reproduce
-        self.energy = energy
-        self.energy_loss = energy_loss
-        self.alive = True
+        self.speed = speed
+    
+    def spawn_offspring(self):
+        if self.model.rng.random() < self.p_reproduce:
+            self.model.add_agent(self.__class__(self.model, 
+                                                position=self.position,
+                                                p_reproduce=self.p_reproduce
+                                                )
+                                )
 
-    def step(self,model):
-
-        self.energy -= self.energy_loss
-
-        if self.energy <0:
-            self.alive = False
+    def step(self):
         # Random walk
         self.move()
-
         # Reproduction
-        if random.random()<self.p_reproduce:
-            model.new_sheep.append(self.spawn_offspring())
+        self.spawn_offspring
         
     
 

@@ -73,8 +73,7 @@
 
 - Læs artiklen om agent based modelling https://math.libretexts.org/Bookshelves/Applied_Mathematics/Agent-Based_Evolutionary_Game_Dynamics_(Izquierdo_Izquierdo_and_Sandholm)/01%3A_Introduction/1.02%3A_Introduction_to_agent-based_modeling
 - En video on net-logo og ABM https://www.youtube.com/watch?v=ocp3OdOvrZM
-
-
+- Net-logo: https://www.netlogoweb.org/launch#https://www.netlogoweb.org/assets/modelslib/Sample%20Models/Biology/Virus.nlogox
 
 ## Bygge Simulationsmodellen 
 - Læs artiklen om prey og predator model https://rf.mokslasplius.lt/agent-based-prey-predator-model/
@@ -99,6 +98,9 @@
 ### Klasse Predator
 - Komplet Klasse `Pedator` ved at implementere de abstrakte klasse `Agent`.
 - :raising_hand: Er der noget flere attributer eller metoder `Predator` skal have? 
+
+
+
 
 ### Simulerings Engine
 
