@@ -111,6 +111,77 @@
     - Fjern døde
     - Registrer statistik
 
+## Do it yourself
+
+I skal færdiggøre en lille Agent Based Model med
+ - en toroidal 2D verden (wrap-around)
+ - en phase-based simulationsmotor:
+ 1. move
+ 2. interact
+ 3. reproduce
+ 4. cleanup (dead)
+
+I får en fil med: 
+- `ToroidalPosition` 
+- `Agent` med `move()`, `interact`, `reproduce()` som abstract methods
+- `Model` med `step()` der kører faserne
+- `Prey` og `Predator` med TODO
+
+**I må ikke ændre engine-strukturen**. I skal implementere de manglende metoder.
+
+### Opgave 1
+- Regler
+    - Prey/Predator skal flytte sig i et random 4-nabolag(op/ned/venstre/højre)
+    - Prey/Predator mister energi hver tur self.energy -= 1 
+    - self.die() hvis energy <= 0
+- Implementér:
+    - Prey.move()
+    - Predator.move()
+
+- Test
+    - print af antal prey/predator pr.step
+
+
+### Opgave 2
+- Regler:
+    - Predator skal kunne spise én prey hvis der står en prey på samme celler.
+    - Når prey spises:
+        - prey dør (prey.die())
+        - predator får energi (fx +10)
+- Implementér:
+    - Predator.interact()
+        - finde prey på samme celle (`model.agent_at()`)
+        - prey.die() hvis er blevet spist
+- hint
+
+```python
+agents_here = self.model.agents_at(self.position)
+prey_at_position = [a for a in agents_here if isinstance(a, Prey)]
+```
+
+### Opgave 3
+
+- Regler
+    - Hvis prey/predator har høj energi, eller efter en reproduce_rate, laver den en ny baby.
+    - Baby spawn'er ved samme position (eller nabo, hvis i vil)
+    - Forælderen mister energi (fx halverer sin energi)
+- Implementér
+    - Prey.reproduce()
+    - Predator.reproduce()
+
+- hint 
+```python         
+    baby = self.__class__(self.model,
+                        uid=self.model.next_uid(),
+                        position=self.position,
+                        energy=10)
+    self.model.add_agent(baby)
+    self.energy//=2 
+```
+
+### Opgave 4
+
+- Demo, plot
 
 
 

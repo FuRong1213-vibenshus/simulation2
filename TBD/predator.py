@@ -1,6 +1,6 @@
 from agent import Agent
 
-class Wolf(Agent):
+class Predator(Agent):
 
     def __init__(self,
                  model,

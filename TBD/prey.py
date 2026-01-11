@@ -1,5 +1,5 @@
 from agent import Agent
-class Sheep(Agent):
+class Prey(Agent):
     def __init__(self, 
                  model, 
                  uid, 
