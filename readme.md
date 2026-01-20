@@ -179,12 +179,48 @@ prey_at_position = [a for a in agents_here if isinstance(a, Prey)]
     self.energy//=2 
 ```
 
-### Opgave 4 
+### Opgave 4 -- Test 
 
-- Demo, plot 
+1. Sikre at `position` altid ligger indenfor Toroidal world 
+    - Skriv en lille test i i den samme fil eller lav en ny fil: 
 
+    ```python
+    def test_toroidal_wrap():
+        model = Model(width=10, height=6, seed=1)
+        WorldPrey, _ = make_world_classes(model)
+        p = WorldPrey(model, uid=0, position=(9,5))
+        p.move_by(1,0)
+        assert p.position == (0,5)
+    ```
+2. Test at døde agents fjernes korrekt.
 
+    ```python
+    def test_agent_dies():
+        model = Model(5,5,seed=1)
+        WorldPrey, _ = make_world_classes(model)
 
+        p = WorldPrey(model, uid=0, energy=1)
+        model.step()
+        assert len(model.agents) == 0
+    ```
+3. Test interaktion mellem agents (predator spiser prey)
+
+    ```python
+    TODO
+    assert prey not in model.agents
+    assert predator.energy >10
+    ```
+
+### Opgave 5 -- Datasamling og statisk plot
+
+1. Gem data over tid
+    - antal prey og predator efter hver step
+2. Plot populationer over tid
+
+### Animation med matplotlib
+
+1. animer population over tid 
+2. (optional) Animer 2D-verdenen. 
 
 
 
