@@ -18,13 +18,14 @@ class Model:
         self.agents.append(agent)
 
     def remove_agent(self, agent):
-        self.agent.remove(agent)
+        self.agents.remove(agent)
 
     def agents_at(self, pos):
         """
         TODO:
         return a list of agents who is occuppying the given position.
         """
+        return [a for a in self.agents if a.position == pos]
 
     def next_uid(self):
         uid = self._next_uid
@@ -37,7 +38,8 @@ class Model:
         
         """ 
 
-        self.rng.shuffle(self.agent)
+        self.rng.shuffle(self.agents)
+
         """
         TODO:
         - all agents Move
@@ -45,9 +47,14 @@ class Model:
         - all reproduce (if possible)
         - model cleanup the DEAD, remove dead agent from the agent list
         """
-        
-         
-        
+        for a in self.agents:
+            a.move()
+            a.interact()
+    
+        for a in self.agents:
+            if not a.alive: 
+                self.remove_agent(a)
+                del a
         
         self.time += 1
         

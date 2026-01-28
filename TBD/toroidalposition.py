@@ -14,7 +14,7 @@ class ToroidalPosition:
     def __get__(self, instance, name):
         if instance is None:
             return self
-        return instance.__dict__[self.name]
+        return instance.__dict__[self._name]
     
     def __set__(self, instance, value):
         x, y = value
