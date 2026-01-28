@@ -223,5 +223,66 @@ prey_at_position = [a for a in agents_here if isinstance(a, Prey)]
 2. (optional) Animer 2D-verdenen. 
 
 
+## Eksperimenter: Programmering som eksperimentel metode
+
+Formålet med dette eksperiment er at undersøge, om 
+- en agentbaseret prey–predator-model kan fremvise oscillationer i populationerne af byttedyr og rovdyr,
+- hvordan disse oscillationer afhænger af udvalgte parametre i modellen.
+- kobler med matematik
+
+### Hypotese
+
+f.x. højere prey-reproductionsrate vil føre til større populationer af prey (byttedyr), hvilket efterfølgende vil medføre en stigning i populationen af predator (rovedyr). 
+
+### Parametre i eksperiment
+
+Der findes følgende elementer i modellen:
+- Verdens størrelse (width og height)
+- Startantal af prey og predator
+- Regler for bevægelse
+- Regler for spisning og reproduction
+- Sandsynlighed for tilfældige hændelser
+
+I eksperimentet, ændrer vi kunne **én parameter ad gangen**, fx. prey-reproductionsrate. På denne måde kan vi se hvordan parameter påvirker modellen. 
+
+Da modellen er stokastisk, vil to simulationer med samme parametre ikke nødvendigvis give identiske resultater. For at reducere støj, kan vi også køre simulation flere gange med forskellige `seed`. 
+
+|**Parameter**|**Værdi**|
+|:---|:---|
+|width|40|
+|height|30|
+|start number prey|300|
+|start number predator|40|
+|p_eat|0.8|
+|predator energy gain|12|
+|energy loss per step|1|
+|steps per run|500|
+|total runs|30|
+
+### Eksperiment og dataopsamling
+
+|**Variabel**|**Beskrivelse**|
+|:-----------|:--------------|
+|t| tidsstep|
+|P(t)| antal prey|
+|Q(t)| antal predator|
+
+### Databehandling
+
+For hver parameteropsætning beregnes middelværdien af P(t) og Q(t) over 30 simulations. Resultaterne visualiseres ved hjælpe af plot. 
+
+### Kobling med andre fag
+
+kan kobles med
+- Økosystem stabilitet
+- ABM design
+- statistic
+- Lotka-Volterra ligninger
+
+    $\frac{dP}{dt} = aP-bPQ$
+
+    $\frac{dQ}{dt} = -cQ + dPQ$
+
+
 
 
